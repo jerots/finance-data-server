@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+
+import app from "../app"
 var debug = require('debug')('finance-data-server:server');
 var http = require('http');
 
