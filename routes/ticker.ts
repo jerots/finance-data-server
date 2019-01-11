@@ -8,14 +8,18 @@ import TickerController from "../src/ticker/controller"
 router.get('/', function (req, res, next) {
   res.send("No ticker information");
 });
-router.get('/:ticker', async (req, res, next) => {
+router.get('/:ticker/:resourceType', async (req, res, next) => {
   const ticker = req.params.ticker;
-  if (ticker) {
-    const data = await TickerController.getFinanceData(ticker);
-    res.send(data);
-  } else {
+  const resourceType = req.params.resourceType;
+  if (!ticker){
     res.send("No ticker information");
   }
+  if (!resourceType){
+    res.send("No resourceType information");
+  }
+
+    const data = await TickerController.getFinanceData(resourceType, ticker);
+    res.send(data);
 });
 
 export default router;
