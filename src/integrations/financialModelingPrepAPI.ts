@@ -1,8 +1,9 @@
 import Axios from "axios";
+import _ from "lodash";
 
 export default class financialModelingPrepAPI {
-    static ROOT_PATH = "https://financialmodelingprep.com/api/"
-    static SINGLE_TICKER_ROUTES: { [s: string]: string } = {
+    private static ROOT_PATH = "https://financialmodelingprep.com/api/"
+    private static SINGLE_TICKER_ROUTES: { [s: string]: string } = {
         "income-statement": "financials/income-statement/$ticker",
         "balance-sheet-statement": "financials/balance-sheet-statement/$ticker",
         "cash-flow-statement": "financials/cash-flow-statement/$ticker",
@@ -15,7 +16,7 @@ export default class financialModelingPrepAPI {
         "majors-indexes-single": "majors-indexes/$ticker",
     }
 
-    static GENERIC_ROUTES = {
+    private static GENERIC_ROUTES = {
         "most-active": "stock/actives",
         "most-gainer": "stock/gainers",
         "most-loser": "stock/losers",
@@ -25,7 +26,7 @@ export default class financialModelingPrepAPI {
         "sectors-performance": "sectors-performance",
     }
 
-    static BATCH_ROUTES = {
+    private static BATCH_ROUTES = {
         "batch-price": "company/price/$ticker",
     }
 
@@ -35,7 +36,36 @@ export default class financialModelingPrepAPI {
             throw new Error("Invalid path");
         }
         const replacedPath = path.replace("$ticker", tickerName);
-        return Axios.get(this.ROOT_PATH + replacedPath)
+        const result = await Axios.get(this.ROOT_PATH + replacedPath, { responseType: "document" });
+
+        const jsonString = result.data.replace(/<pre>|\\n/g, "");
+        let finalJson;
+        try {
+            finalJson = JSON.parse(jsonString);
+        } catch (e) {
+            console.error(e);
+        }
+        return finalJson;
+    }
+
+    static async getAllTickerFinanceData(tickerName: string) {
+
+        const ROUTES = [
+            "income-statement",
+            "balance-sheet-statement",
+            "cash-flow-statement",
+            "profile",
+            "price",
+            "rating",
+            "discounted-cash-flow"
+        ]
+        const tickerData = {}
+        const promises = _.map(ROUTES, async (resourceType) => {
+            const data = await this.getSingleTickerFinanceData(resourceType, tickerName)
+            _.merge(tickerData, _.values(data));
+        })
+        await Promise.all(promises);
+        return tickerData;
     }
 }
 

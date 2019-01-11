@@ -1,14 +1,27 @@
-import Axios from "axios";
-import { Ticker } from "./model";
 import financialModelingPrepAPI from "../integrations/financialModelingPrepAPI";
+import Ticker from "./Ticker";
 
 export default class TickerController {
 
-    static async getFinanceData(resourceType: string, tickerName: string):Promise<JSON> {
-        const result = await financialModelingPrepAPI.getSingleTickerFinanceData(resourceType, tickerName);
+    private static cache: {[s:string]: Ticker} = {};
 
-        
-        return result.data;
+    public static async get(tickerName: string) {
+        let ticker = this.cache[tickerName];
+        if (!ticker){
+            ticker = await this.init(tickerName);
+            this.cache[tickerName] = ticker;
+        }
+        return ticker;
     }
-}
 
+    private static async init(tickerName: string): Promise<Ticker>{
+
+
+        const data = await financialModelingPrepAPI.getAllTickerFinanceData(tickerName)
+
+        return new Ticker(tickerName, data);
+    }
+
+
+
+}
