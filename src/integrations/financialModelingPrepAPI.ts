@@ -1,6 +1,6 @@
 import Axios from "axios";
 import _ from "lodash";
-import Ticker, { TickerData } from "../ticker/Ticker";
+import { TickerData } from "../ticker/Ticker";
 
 export default class financialModelingPrepAPI {
     private static ROOT_PATH = "https://financialmodelingprep.com/api/"
