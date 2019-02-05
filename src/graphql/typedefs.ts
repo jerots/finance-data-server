@@ -10,8 +10,8 @@ const typeDefs = gql`
     name: String
     incomeStatement: JSON
     balanceSheet: JSON
-    dcf: JSON
-    rating: JSON
+    dcf: Float
+    rating: Float
     cashFlowStatement: JSON
     profile: JSON
   }

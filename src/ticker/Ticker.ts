@@ -17,8 +17,8 @@ export default class Ticker {
         this.name = tickerName;
         this.incomeStatement = incomeStatement;
         this.balanceSheet = balanceSheet;
-        this.dcf = dcf;
-        this.rating = rating;
+        this.dcf = dcf.DCF;
+        this.rating = rating.rating;
         this.cashFlowStatement = cashFlowStatement;
         this.profile = profile;
     }
@@ -26,4 +26,4 @@ export default class Ticker {
 
 }
 
-export interface TickerData { [incomeStatement: string]: any, balanceSheet?: any, dcf?: number, rating?: any, cashFlowStatement?: any, profile?: any }
+export interface TickerData { [incomeStatement: string]: any, balanceSheet?: any, dcf?: any, rating?: any, cashFlowStatement?: any, profile?: any }
