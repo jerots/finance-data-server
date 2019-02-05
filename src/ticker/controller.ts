@@ -7,10 +7,10 @@ export default class TickerController {
 
     public static async get(tickerName: string) {
         let ticker = this.cache[tickerName];
-        if (!ticker){
+        // if (!ticker){
             ticker = await this.init(tickerName);
-            this.cache[tickerName] = ticker;
-        }
+            // this.cache[tickerName] = ticker;
+        // }
         return ticker;
     }
 

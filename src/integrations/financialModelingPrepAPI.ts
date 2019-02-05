@@ -1,5 +1,6 @@
 import Axios from "axios";
 import _ from "lodash";
+import Ticker, { TickerData } from "../ticker/Ticker";
 
 export default class financialModelingPrepAPI {
     private static ROOT_PATH = "https://financialmodelingprep.com/api/"
@@ -63,23 +64,27 @@ export default class financialModelingPrepAPI {
 
     static async getAllTickerFinanceData(tickerName: string) {
 
-        const ROUTES = [
-            this.INCOME_STATEMENT,
-            this.BALANCE_SHEET,
-            this.CASH_FLOW_STATEMENT,
-            this.PROFILE,
-            this.PRICE,
-            this.RATING,
-            this.DISCOUNTED_CASH_FLOW
-        ]
 
-        const tickerData = {}
-        const promises = _.map(ROUTES, async (resourceType) => {
+        const ROUTES: { [s: string]: number } = {
+            "incomeStatement": this.INCOME_STATEMENT,
+            "balanceSheet": this.BALANCE_SHEET,
+            "cashFlowStatement": this.CASH_FLOW_STATEMENT,
+            "profile": this.PROFILE,
+            "price": this.PRICE,
+            "rating": this.RATING,
+            "dcf": this.DISCOUNTED_CASH_FLOW
+        }
+
+        const tickerData: TickerData = {};
+        const promises = _.map(ROUTES, async (resourceType: number, key: string) => {
             const data = await this.getSingleTickerFinanceData(resourceType, tickerName)
-            _.merge(tickerData, _.values(data));
+            tickerData[key] = _.get(data, tickerName);
         })
         await Promise.all(promises);
-        return tickerData;
+        const ticker = new Ticker(tickerName, tickerData);
+        return ticker;
     }
 }
+
+
 
