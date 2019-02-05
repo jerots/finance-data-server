@@ -3,18 +3,31 @@ import _ from "lodash";
 
 export default class financialModelingPrepAPI {
     private static ROOT_PATH = "https://financialmodelingprep.com/api/"
-    private static SINGLE_TICKER_ROUTES: { [s: string]: string } = {
-        "income-statement": "financials/income-statement/$ticker",
-        "balance-sheet-statement": "financials/balance-sheet-statement/$ticker",
-        "cash-flow-statement": "financials/cash-flow-statement/$ticker",
-        "profile": "company/profile/$ticker",
-        "price": "company/price/$ticker",
-        "rating": "company/rating/$ticker",
-        "discounted-cash-flow": "company/discounted-cash-flow/$ticker",
-        "cryptocurrency-single": "cryptocurrency/$ticker",
-        "forex-single": "forex/$ticker",
-        "majors-indexes-single": "majors-indexes/$ticker",
-    }
+
+    private static INCOME_STATEMENT = 0;
+    private static BALANCE_SHEET = 1;
+    private static CASH_FLOW_STATEMENT = 2;
+    private static PROFILE = 3;
+    private static PRICE = 4;
+    private static RATING = 5;
+    private static DISCOUNTED_CASH_FLOW = 6;
+    private static CRYPTOCURRENCY_SINGLE = 7;
+    private static FOREX_SINGLE = 8;
+    private static MAJOR_INDEX_SINGLE = 9;
+
+
+    private static SINGLE_TICKER_ROUTES: String[] = [
+        "financials/income-statement/$ticker",
+        "financials/balance-sheet-statement/$ticker",
+        "financials/cash-flow-statement/$ticker",
+        "company/profile/$ticker",
+        "company/price/$ticker",
+        "company/rating/$ticker",
+        "company/discounted-cash-flow/$ticker",
+        "cryptocurrency/$ticker",
+        "forex/$ticker",
+        "majors-indexes/$ticker",
+    ]
 
     private static GENERIC_ROUTES = {
         "most-active": "stock/actives",
@@ -30,7 +43,7 @@ export default class financialModelingPrepAPI {
         "batch-price": "company/price/$ticker",
     }
 
-    static async getSingleTickerFinanceData(resourceType: string, tickerName: string) {
+    static async getSingleTickerFinanceData(resourceType: number, tickerName: string) {
         const path = this.SINGLE_TICKER_ROUTES[resourceType];
         if (!path) {
             throw new Error("Invalid path");
@@ -51,14 +64,15 @@ export default class financialModelingPrepAPI {
     static async getAllTickerFinanceData(tickerName: string) {
 
         const ROUTES = [
-            "income-statement",
-            "balance-sheet-statement",
-            "cash-flow-statement",
-            "profile",
-            "price",
-            "rating",
-            "discounted-cash-flow"
+            this.INCOME_STATEMENT,
+            this.BALANCE_SHEET,
+            this.CASH_FLOW_STATEMENT,
+            this.PROFILE,
+            this.PRICE,
+            this.RATING,
+            this.DISCOUNTED_CASH_FLOW
         ]
+
         const tickerData = {}
         const promises = _.map(ROUTES, async (resourceType) => {
             const data = await this.getSingleTickerFinanceData(resourceType, tickerName)
