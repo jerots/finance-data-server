@@ -6,11 +6,12 @@ export default class TickerController {
     private static cache: {[s:string]: Ticker} = {};
 
     public static async get(tickerName: string) {
-        let ticker = this.cache[tickerName];
+        // let ticker = this.cache[tickerName];
         // if (!ticker){
-            ticker = await this.initTicker(tickerName);
+            // ticker = await this.initTicker(tickerName);
             // this.cache[tickerName] = ticker;
         // }
+        const ticker = await this.initTicker(tickerName);
         return ticker;
     }
 
