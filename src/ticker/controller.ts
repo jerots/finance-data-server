@@ -8,18 +8,18 @@ export default class TickerController {
     public static async get(tickerName: string) {
         let ticker = this.cache[tickerName];
         // if (!ticker){
-            ticker = await this.init(tickerName);
+            ticker = await this.initTicker(tickerName);
             // this.cache[tickerName] = ticker;
         // }
         return ticker;
     }
 
-    private static async init(tickerName: string): Promise<Ticker>{
+    private static async initTicker(tickerName: string): Promise<Ticker>{
 
 
-        const data = await financialModelingPrepAPI.getAllTickerFinanceData(tickerName)
+        const tickerData = await financialModelingPrepAPI.getAllTickerFinanceData(tickerName)
 
-        return new Ticker(tickerName, data);
+        return new Ticker(tickerName, tickerData);
     }
 
 

@@ -62,7 +62,7 @@ export default class financialModelingPrepAPI {
         return finalJson;
     }
 
-    static async getAllTickerFinanceData(tickerName: string) {
+    static async getAllTickerFinanceData(tickerName: string): Promise<TickerData> {
 
 
         const ROUTES: { [s: string]: number } = {
@@ -81,8 +81,8 @@ export default class financialModelingPrepAPI {
             tickerData[key] = _.get(data, tickerName);
         })
         await Promise.all(promises);
-        const ticker = new Ticker(tickerName, tickerData);
-        return ticker;
+
+        return tickerData;
     }
 }
 
