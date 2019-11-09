@@ -18,10 +18,10 @@ RUN yarn
 # Bundle app source
 COPY . .
 
-RUN npm run tsc
+RUN yarn run tsc
 
 EXPOSE 4000
 
 ENV NODE_ENV production
 
-CMD [ "npm", "start" ]
+CMD [ "yarn", "start" ]

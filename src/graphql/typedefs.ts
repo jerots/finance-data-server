@@ -10,15 +10,12 @@ const typeDefs = gql`
   type Ticker {
     name: String
     incomeStatement: JSON
-    balanceSheet: JSON
-    dcf: Float
-    rating: Float
+    balanceSheetStatement: JSON
     cashFlowStatement: JSON
     profile: JSON
   }
 
   scalar JSON
 `;
-
 
 export default typeDefs;
