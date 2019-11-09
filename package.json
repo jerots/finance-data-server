@@ -12,7 +12,7 @@
     "@types/lodash": "^4.14.119",
     "@types/morgan": "^1.7.35",
     "apollo-server": "^2.3.1",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
