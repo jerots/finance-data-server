@@ -34,7 +34,7 @@ export default class Ticker {
 
 export interface TickerData {
   [incomeStatement: string]: any;
-  balanceSheet?: any;
+  balanceSheetStatement?: any;
   dcf?: any;
   rating?: any;
   cashFlowStatement?: any;
