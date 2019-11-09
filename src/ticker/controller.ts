@@ -2,7 +2,7 @@ import financialModelingPrepAPI from "../integrations/financialModelingPrepAPI";
 import Ticker from "./Ticker";
 import Axios from "axios";
 import * as _ from "lodash";
-import lazyFaAPI from "../integrations/lazyFaApi";
+import lazyFaAPI from "../integrations/lazyFaAPI";
 
 export default class TickerController {
   private static cache: { [s: string]: Ticker } = {};
