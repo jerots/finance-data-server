@@ -15,6 +15,8 @@ RUN npm install
 # Bundle app source
 COPY . .
 
+RUN npm run tsc
+
 EXPOSE 4000
 
 ENV NODE_ENV production
